@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis = ["🚲", "🚂","🚁", "🚜", "🚕", "🏎", "🚑", "🚓", "🚒", "✈️", "🚀", "⛵️",  "🛸", "🛶", "🚌", "🏍", "🛺", "🚠", "🛵", "🚗", "🚚", "🚇", "🛻", "🚝"]
-    @State var emojiCount = 6
+    @State var emojis = ["🚲", "🚂","🚁", "🚜", "🚕", "🏎", "🚑", "🚓", "🚒", "✈️", "🚀", "⛵️",  "🛸", "🛶", "🚌", "🏍", "🛺", "🚠", "🛵", "🚗", "🚚", "🚇", "🛻", "🚝"].shuffled()
+    @State var emojiCount = 10
     
     var body: some View {
         VStack {
+            Text("Memorize!")
+                .font(.largeTitle)
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
                     ForEach(emojis[0..<emojiCount], id: \.self) { emoji in
@@ -22,35 +24,60 @@ struct ContentView: View {
                 .foregroundColor(.red)
             }
             Spacer()
-            HStack {
-                remove
+            HStack(alignment: .bottom) {
+                buttonVehicle
                 Spacer()
-                add
+                buttonFace
+                Spacer()
+                buttonFood
             }
-            .font(.largeTitle)
+            .font(.subheadline)
             .padding(.horizontal)
 
         }
         .padding(.horizontal)
     }
     
-    var remove: some View {
+    let vehicles = ["🚲", "🚂","🚁", "🚜", "🚕", "🏎", "🚑", "🚓", "🚒", "✈️", "🚀", "⛵️",  "🛸", "🛶", "🚌", "🏍", "🛺", "🚠", "🛵", "🚗", "🚚", "🚇", "🛻", "🚝"]
+    var buttonVehicle: some View {
         Button {
-            if emojiCount > 1 {
-                emojiCount -= 1
-            }
+            emojis = vehicles.shuffled()
+            emojiCount = vehicles.count
         } label: {
-            Image(systemName: "minus.circle")
+            VStack {
+                Image(systemName: "car")
+                    .font(.largeTitle)
+                Text("car")
+            }
         }
     }
     
-    var add: some View {
+    let faces = ["😀", "😃", "😆", "😅", "😂", "🤣", "🥲", "☺️", "😊", "😇", "😎", "🤪", "😉", "😌", "🥰", "😘"]
+    var buttonFace: some View {
         Button {
-            if emojiCount < emojis.count {
-                emojiCount += 1
-            }
+            emojis = faces.shuffled()
+            emojiCount = faces.count
         } label: {
-            Image(systemName: "plus.circle")
+            VStack {
+                Image(systemName: "face.smiling")
+                    .font(.largeTitle)
+                Text("face")
+            }
+        }
+    }
+    
+    let foods = ["🍏", "🍌", "🍐", "🍉", "🍒", "🍈", "🫐", "🥭", "🍍", "🥥", "🍆", "🍅", "🥝", "🌽", "🫒"]
+    var buttonFood: some View {
+        Button {
+            emojis = foods.shuffled()
+            emojiCount = foods.count
+        } label: {
+            VStack {
+                Image(systemName: "applelogo")
+                    .font(.largeTitle)
+                Text("food")
+                    .allowsTightening(true)
+            }
         }
     }
 }
