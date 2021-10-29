@@ -16,6 +16,7 @@
 		4FBDB7D6272240E50081B617 /* MemorizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBDB7D5272240E50081B617 /* MemorizeTests.swift */; };
 		4FBDB7E0272240E50081B617 /* MemorizeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBDB7DF272240E50081B617 /* MemorizeUITests.swift */; };
 		4FBDB7E2272240E50081B617 /* MemorizeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBDB7E1272240E50081B617 /* MemorizeUITestsLaunchTests.swift */; };
+		4FD1618F2728D5B300A96F41 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD1618E2728D5B300A96F41 /* Theme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		4FBDB7DB272240E50081B617 /* MemorizeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemorizeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FBDB7DF272240E50081B617 /* MemorizeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeUITests.swift; sourceTree = "<group>"; };
 		4FBDB7E1272240E50081B617 /* MemorizeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4FD1618E2728D5B300A96F41 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				4FBDB7C6272240E30081B617 /* ContentView.swift */,
 				4F42B7F027267742006C3DB1 /* MemoryGame.swift */,
 				4F42B7F22726796F006C3DB1 /* EmojiMemoryGame.swift */,
+				4FD1618E2728D5B300A96F41 /* Theme.swift */,
 				4FBDB7C8272240E50081B617 /* Assets.xcassets */,
 				4FBDB7CA272240E50081B617 /* Preview Content */,
 			);
@@ -265,6 +268,7 @@
 			files = (
 				4F42B7F127267742006C3DB1 /* MemoryGame.swift in Sources */,
 				4FBDB7C7272240E30081B617 /* ContentView.swift in Sources */,
+				4FD1618F2728D5B300A96F41 /* Theme.swift in Sources */,
 				4FBDB7C5272240E30081B617 /* MemorizeApp.swift in Sources */,
 				4F42B7F32726796F006C3DB1 /* EmojiMemoryGame.swift in Sources */,
 			);
