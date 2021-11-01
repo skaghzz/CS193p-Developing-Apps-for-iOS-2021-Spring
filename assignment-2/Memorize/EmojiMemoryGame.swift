@@ -19,20 +19,19 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     static func createMemoryGame(with theme: Theme) -> MemoryGame<String> {
-        let shuffledEmojis = theme.emojis.shuffled()
         var numberOfPairsOfCards: Int
         if let numberOfCardsToShow = theme.numberOfCardsToShow {
             if numberOfCardsToShow > theme.emojis.count {
-                numberOfPairsOfCards = Int.random(in: 2...theme.emojis.count)
+                numberOfPairsOfCards = theme.emojis.count
             } else {
                 numberOfPairsOfCards = numberOfCardsToShow
             }
         } else {
-            numberOfPairsOfCards = Int.random(in: 2...theme.emojis.count)
+            numberOfPairsOfCards = theme.emojis.count
         }
-        
+        let shuffledEmojis = theme.emojis.shuffled()
         return MemoryGame<String>.init(numberOfPairsOfCards: numberOfPairsOfCards) { pairIndex in
-            shuffledEmojis[pairIndex]
+            return shuffledEmojis[pairIndex]
         }
     }
     
@@ -55,6 +54,10 @@ class EmojiMemoryGame: ObservableObject {
         default:
             return .orange
         }
+    }
+    
+    var cardGradient: LinearGradient {
+        return LinearGradient(gradient: Gradient(colors: [cardColor, cardColor.opacity(0.2)]), startPoint: .topLeading, endPoint: .bottomTrailing)
     }
     
     // MARK: - Intent(s)

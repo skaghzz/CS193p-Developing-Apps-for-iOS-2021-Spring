@@ -23,6 +23,9 @@ struct Theme {
              color: "yellow"),
         Theme(name: "Food",
               emojis: ["🍏", "🍋", "🍓", "🍈", "🍒", "🫐", "🥝", "🍅", "🥦", "🥑", "🥒", "🥕", "🌽"],
-              color: "green")
+              color: "green"),
+        Theme(name: "duplicate test",
+              emojis: ["🍏", "🍏", "🍏", "🍋", "🍋"],
+              color: "gray")
     ]
 }
