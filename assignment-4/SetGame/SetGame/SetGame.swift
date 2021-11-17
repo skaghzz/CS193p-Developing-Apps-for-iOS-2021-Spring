@@ -27,6 +27,7 @@ struct SetGame {
         
     private var isMatch: Bool {
         get {
+            return true
             if indexOfchosen.count == GameConstants.numberOfMatchCard {
                 let card1 = table[indexOfchosen[0]]
                 let card2 = table[indexOfchosen[1]]
@@ -94,13 +95,19 @@ struct SetGame {
     
     private mutating func discard() {
         indexOfchosen.reversed().forEach({ i in
-            discardPile.append(table.remove(at: i))
+            var card = table.remove(at: i)
+            card.isSet = nil
+            card.isChoose = false
+            discardPile.append(card)
         })
     }
     
     private mutating func replaceNewCard() {
         indexOfchosen.reversed().forEach({ i in
-            table.remove(at: i)
+            var card = table.remove(at: i)
+            card.isSet = nil
+            card.isChoose = false
+            discardPile.append(card)
             if !deck.isEmpty {
                 var card = deck.popLast()!
                 card.isFaceUp = true
@@ -117,7 +124,9 @@ struct SetGame {
             }
         }
         for _ in 0..<GameConstants.numberOfDealCard {
-            table.append(deck.popLast()!)
+            var card = deck.popLast()!
+            card.isFaceUp = true
+            table.append(card)
         }
     }
 }

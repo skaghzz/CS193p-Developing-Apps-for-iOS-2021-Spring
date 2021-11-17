@@ -24,16 +24,23 @@ struct CardView: View {
                 }
                 .foregroundColor(cardColor)
                 if card.isChoose {
-                    shape.foregroundColor(.gray).opacity(0.5)
+                    shape
+                        .foregroundColor(.gray)
+                        .opacity(0.5)
                 }
                 if let isSet = card.isSet {
-                    shape.foregroundColor(isSet ? .green : .red).opacity(0.6)
+                    shape
+                        .foregroundColor(isSet ? .green : .red)
+                        .opacity(0.6)
                 }
             }
             .cardify(isFaceUp: card.isFaceUp)
         })
     }
-
+    
+    private func scale(thatFits size: CGSize) -> CGFloat {
+        min(size.width, size.height) / (DrawingConstants.fontSize / DrawingConstants.fontScale)
+    }
     
     @ViewBuilder
     private var symbol: some View {
@@ -83,6 +90,8 @@ struct CardView: View {
     private struct DrawingConstants {
         static let cornerRadius: CGFloat = 10
         static let lindWidth: CGFloat = 3
+        static let fontScale: CGFloat = 0.7
+        static let fontSize: CGFloat = 32
     }
 }
 

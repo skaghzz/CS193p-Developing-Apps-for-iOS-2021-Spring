@@ -22,6 +22,10 @@ class FirstSetGame: ObservableObject {
         model.table
     }
     
+    var discardPile: [Card] {
+        model.discardPile
+    }
+    
     func choose(_ card: Card) {
         model.choose(card)
     }

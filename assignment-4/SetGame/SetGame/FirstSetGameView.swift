@@ -10,6 +10,8 @@ import SwiftUI
 struct FirstSetGameView: View {
     @ObservedObject var game: FirstSetGame
     
+    @Namespace private var dealingNamespace
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
@@ -22,21 +24,17 @@ struct FirstSetGameView: View {
             HStack {
                 deckBody
                 Spacer()
-                deckBody
+                dicardPileBody
             }
         }
         .padding()
     }
     
-    //            HStack {
-    //                Button("Deal 3 More Cards") {
-    //                    game.dealThreeMoreCard()
-    //                }.disabled(game.deck.isEmpty)
-    //            }
-    
     var gameBody: some View {
         AspectVGrid(items: game.table, aspectRatio: 2/3, content: { card in
             CardView(card: card)
+                .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                .transition(.asymmetric(insertion: .identity, removal: .identity))
                 .padding(4)
                 .onTapGesture {
                     withAnimation {
@@ -58,22 +56,36 @@ struct FirstSetGameView: View {
         ZStack {
             ForEach(game.deck) { card in
                 CardView(card: card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
             }
         }
         .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
-        .foregroundColor(CardConstants.color)
+        //.foregroundColor(CardConstants.color)
         .onTapGesture {
-            withAnimation {
+            withAnimation(.easeInOut(duration: CardConstants.dealDuration)) {
                 game.dealThreeMoreCard()
             }
         }
     }
     
+    var dicardPileBody: some View {
+        ZStack {
+            ForEach(game.discardPile) { card in
+                CardView(card: card)
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+            }
+        }
+        .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
+        //.foregroundColor(CardConstants.color)
+    }
+    
     private struct CardConstants {
-        static let color = Color.red
+        static let color = Color.black
         static let aspectRatio: CGFloat = 2/3
         static let dealDuration: Double = 0.5
-        static let totalDealDuration: Double = 2
+        static let totalDealDuration: Double = 5
         static let undealtHeight: CGFloat = 90
         static let undealtWidth = undealtHeight * aspectRatio
         
