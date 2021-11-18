@@ -27,7 +27,6 @@ struct SetGame {
         
     private var isMatch: Bool {
         get {
-            return true
             if indexOfchosen.count == GameConstants.numberOfMatchCard {
                 let card1 = table[indexOfchosen[0]]
                 let card2 = table[indexOfchosen[1]]

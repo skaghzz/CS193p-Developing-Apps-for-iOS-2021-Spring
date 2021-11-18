@@ -34,10 +34,10 @@ struct FirstSetGameView: View {
         AspectVGrid(items: game.table, aspectRatio: 2/3, content: { card in
             CardView(card: card)
                 .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                .transition(.asymmetric(insertion: .identity, removal: .identity))
                 .padding(4)
+                .transition(.asymmetric(insertion: .identity, removal: .identity))
                 .onTapGesture {
-                    withAnimation {
+                    withAnimation(.easeInOut(duration: CardConstants.dealDuration)) {
                         game.choose(card)
                     }
                 }
@@ -46,7 +46,7 @@ struct FirstSetGameView: View {
     
     var newGame: some View {
         Button("New Game") {
-            withAnimation {
+            withAnimation(.easeInOut(duration: CardConstants.dealDuration)) {
                 game.newGame()
             }
         }
@@ -57,7 +57,7 @@ struct FirstSetGameView: View {
             ForEach(game.deck) { card in
                 CardView(card: card)
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+                    .transition(.asymmetric(insertion: .opacity, removal: .identity))
             }
         }
         .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
@@ -74,7 +74,7 @@ struct FirstSetGameView: View {
             ForEach(game.discardPile) { card in
                 CardView(card: card)
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                    .transition(.asymmetric(insertion: .identity, removal: .identity))
+                    .transition(.asymmetric(insertion: .identity, removal: .opacity))
             }
         }
         .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
@@ -84,11 +84,10 @@ struct FirstSetGameView: View {
     private struct CardConstants {
         static let color = Color.black
         static let aspectRatio: CGFloat = 2/3
-        static let dealDuration: Double = 0.5
+        static let dealDuration: Double = 0.7
         static let totalDealDuration: Double = 5
         static let undealtHeight: CGFloat = 90
         static let undealtWidth = undealtHeight * aspectRatio
-        
     }
 }
 
