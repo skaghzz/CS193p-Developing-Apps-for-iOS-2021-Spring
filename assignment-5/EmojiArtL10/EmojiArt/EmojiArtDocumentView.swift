@@ -28,15 +28,17 @@ struct EmojiArtDocumentView: View {
                         .scaleEffect(zoomScale)
                         .position(convertFromEmojiCoordinates((0,0), in: geometry))
                 )
-                .gesture(doubleTapToZoom(in: geometry.size))
+                    .gesture(tapToDischoose().simultaneously(with: doubleTapToZoom(in: geometry.size)))
                 if document.backgroundImageFetchStatus == .fetching {
                     ProgressView().scaleEffect(2)
                 } else {
                     ForEach(document.emojis) { emoji in
                         Text(emoji.text)
+                            .overlay(isChosen(emoji) ? RoundedRectangle(cornerRadius: 10).stroke(Color.black) : nil)
                             .font(.system(size: fontSize(for: emoji)))
                             .scaleEffect(zoomScale)
                             .position(position(for: emoji, in: geometry))
+                            .gesture(tapToChoose(emoji))
                     }
                 }
             }
@@ -47,6 +49,33 @@ struct EmojiArtDocumentView: View {
             .gesture(panGesture().simultaneously(with: zoomGesture()))
         }
     }
+    
+    // MARK: - Emoji Select and Diselect
+    @State private var chosenEmoji: Set<EmojiArtModel.Emoji> = []
+    
+    private func tapToChoose(_ emoji: EmojiArtModel.Emoji) -> some Gesture {
+        TapGesture()
+            .onEnded {
+                if isChosen(emoji) {
+                    chosenEmoji.remove(emoji)
+                } else {
+                    chosenEmoji.insert(emoji)
+                }
+            }
+    }
+    
+    private func tapToDischoose() -> some Gesture {
+        TapGesture()
+            .onEnded {
+                chosenEmoji.removeAll()
+            }
+    }
+    
+    private func isChosen(_ emoji: EmojiArtModel.Emoji) -> Bool {
+        chosenEmoji.contains(emoji)
+    }
+
+    // MARK: - Emoji Drag
     
     // MARK: - Drag and Drop
     
