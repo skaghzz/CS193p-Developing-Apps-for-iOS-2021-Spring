@@ -63,8 +63,8 @@
 			children = (
 				4F8BCB0327463B9C002C5C87 /* EmojiArtApp.swift */,
 				4F8BCB0527463B9C002C5C87 /* EmojiArtDocumentView.swift */,
-				4F8BCB1127463BC9002C5C87 /* EmojiArtModel.swift */,
 				4F8BCB15274640AC002C5C87 /* EmojiArtDocument.swift */,
+				4F8BCB1127463BC9002C5C87 /* EmojiArtModel.swift */,
 				4F8BCB1327463E56002C5C87 /* EmojiArtModel.Background.swift */,
 				4F8BCB0727463B9E002C5C87 /* Assets.xcassets */,
 				4F8BCB0927463B9E002C5C87 /* Preview Content */,
