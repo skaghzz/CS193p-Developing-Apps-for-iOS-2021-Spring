@@ -36,4 +36,11 @@ struct EmojiArtModel {
         uniqueEmojiId += 1
         emojis.append(Emoji(text: text, x: location.x, y: location.y, size: size, id: uniqueEmojiId))
     }
+    
+//    mutating func moveEmoji(_ emoji: Emoji, at location: (x: Int, y: Int)) {
+//        if let index = emojis.index(matching: emoji) {
+//            emojis[index].x = location.x
+//            emojis[index].y = location.y
+//        }
+//    }
 }
