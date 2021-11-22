@@ -13,8 +13,16 @@
 
 ### Assignment #5
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/xrBtp8ET7MM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+drag
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2HG1HQHsd28" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<img src="./assignment-5/screenshots/drag.mp4.gif" width="650">
+<br/>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lYUvaSUovEo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+zoom
+
+<img src="./assignment-5/screenshots/zoom.mp4.gif" width="650">
+<br/>
+
+remove
+
+<img src="./assignment-5/screenshots/remove.mp4.gif" width="650">
