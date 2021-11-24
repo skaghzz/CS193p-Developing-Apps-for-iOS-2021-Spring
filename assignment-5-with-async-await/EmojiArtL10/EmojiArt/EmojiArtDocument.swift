@@ -1,0 +1,128 @@
+//
+//  EmojiArtDocument.swift
+//  EmojiArt
+//
+//  Created by CS193p Instructor on 4/26/21.
+//  Copyright © 2021 Stanford University. All rights reserved.
+//
+
+import SwiftUI
+
+class EmojiArtDocument: ObservableObject
+{
+    @Published private(set) var emojiArt: EmojiArtModel {
+        didSet {
+            if emojiArt.background != oldValue.background {
+//                Task {
+//                    await fetchBackgroundImageDataIfNecessary_2()
+//                }
+                fetchBackgroundImageDataIfNecessary_2()
+            }
+        }
+    }
+    
+    init() {
+        emojiArt = EmojiArtModel()
+        emojiArt.addEmoji("😀", at: (-200, -100), size: 80)
+        emojiArt.addEmoji("😷", at: (50, 100), size: 40)
+    }
+    
+    var emojis: [EmojiArtModel.Emoji] { emojiArt.emojis }
+    var background: EmojiArtModel.Background { emojiArt.background }
+    
+    // MARK: - Background
+    
+    @Published var backgroundImage: UIImage?
+    @Published var backgroundImageFetchStatus = BackgroundImageFetchStatus.idle
+    
+    enum BackgroundImageFetchStatus {
+        case idle
+        case fetching
+    }
+    
+    private func chanageBackground(url: URL) async {
+        print("1")
+        sleep(3)
+        
+        guard let imageData = try? Data(contentsOf: url) else { return }
+        print("2")
+        sleep(3)
+        
+        await MainActor.run {
+            self.backgroundImage = UIImage(data: imageData)
+        }
+        print("3")
+        sleep(3)
+        
+    }
+    
+    private func fetchBackgroundImageDataIfNecessary_2() {
+        backgroundImage = nil
+        switch emojiArt.background {
+        case .url(let url):
+            // fetch the url
+            print("start url")
+            Task {
+                await chanageBackground(url: url)
+            }
+            print("end url")
+        case .imageData(let data):
+            backgroundImage = UIImage(data: data)
+        case .blank:
+            break
+        }
+    }
+    
+    private func fetchBackgroundImageDataIfNecessary() {
+        backgroundImage = nil
+        switch emojiArt.background {
+        case .url(let url):
+            // fetch the url
+            backgroundImageFetchStatus = .fetching
+            DispatchQueue.global(qos: .userInitiated).async {
+                let imageData = try? Data(contentsOf: url)  // 이게 async가 필요한 작업인지 확인
+                DispatchQueue.main.async { [weak self] in   // 왜 weak self를 사용하는가?
+                    if self?.emojiArt.background == EmojiArtModel.Background.url(url) {
+                        self?.backgroundImageFetchStatus = .idle
+                        if imageData != nil {
+                            self?.backgroundImage = UIImage(data: imageData!)
+                        }
+                    }
+                }
+            }
+        case .imageData(let data):
+            backgroundImage = UIImage(data: data)
+        case .blank:
+            break
+        }
+    }
+    
+    // MARK: - Intent(s)
+    
+    func setBackground(_ background: EmojiArtModel.Background) {
+        emojiArt.background = background
+    }
+    
+    func addEmoji(_ emoji: String, at location: (x: Int, y: Int), size: CGFloat) {
+        emojiArt.addEmoji(emoji, at: location, size: Int(size))
+    }
+    
+    func moveEmoji(_ emoji: EmojiArtModel.Emoji, by offset: CGSize) {
+        if let index = emojiArt.emojis.index(matching: emoji) {
+            emojiArt.emojis[index].x += Int(offset.width)
+            emojiArt.emojis[index].y += Int(offset.height)
+        }
+    }
+    
+    func scaleEmoji(_ emoji: EmojiArtModel.Emoji, by scale: CGFloat) {
+        if let index = emojiArt.emojis.index(matching: emoji) {
+            emojiArt.emojis[index].size = Int((CGFloat(emojiArt.emojis[index].size) * scale).rounded(.toNearestOrAwayFromZero))
+        }
+    }
+    
+    func removeEmoji(_ emoji: EmojiArtModel.Emoji) {
+        if let index = emojiArt.emojis.index(matching: emoji) {
+            emojiArt.emojis.remove(at: index)
+        }
+    }
+}
