@@ -13,10 +13,7 @@ class EmojiArtDocument: ObservableObject
     @Published private(set) var emojiArt: EmojiArtModel {
         didSet {
             if emojiArt.background != oldValue.background {
-//                Task {
-//                    await fetchBackgroundImageDataIfNecessary_2()
-//                }
-                fetchBackgroundImageDataIfNecessary_2()
+                fetchBackgroundImageDataIfNecessary_async()
             }
         }
     }
@@ -40,32 +37,32 @@ class EmojiArtDocument: ObservableObject
         case fetching
     }
     
-    private func chanageBackground(url: URL) async {
-        print("1")
-        sleep(3)
-        
-        guard let imageData = try? Data(contentsOf: url) else { return }
-        print("2")
-        sleep(3)
-        
-        await MainActor.run {
-            self.backgroundImage = UIImage(data: imageData)
-        }
-        print("3")
-        sleep(3)
-        
+    private func getBackgroundImage(url: URL) async -> Data? {
+        return try? Data(contentsOf: url)
     }
     
-    private func fetchBackgroundImageDataIfNecessary_2() {
+    private func changeBackground(url: URL, imageData: Data) async {
+        await MainActor.run { [weak self] in
+            if self?.emojiArt.background == EmojiArtModel.Background.url(url) {
+                self?.backgroundImageFetchStatus = .idle
+                self?.backgroundImage = UIImage(data: imageData)
+            }
+        }
+    }
+    
+    private func background(url: URL) async {
+        guard let imageData = await getBackgroundImage(url: url) else { return }
+        await changeBackground(url: url, imageData: imageData)
+    }
+    
+    private func fetchBackgroundImageDataIfNecessary_async() {
         backgroundImage = nil
         switch emojiArt.background {
         case .url(let url):
             // fetch the url
-            print("start url")
             Task {
-                await chanageBackground(url: url)
+                await background(url: url)
             }
-            print("end url")
         case .imageData(let data):
             backgroundImage = UIImage(data: data)
         case .blank:
